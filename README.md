@@ -1,2 +1,2 @@
-# 2022 Rapid React
-Our Code for FRC Season 2022 Rapid React
+# 2022 Rapid React Preseason
+Our Code for the FRC 2022 preseason
