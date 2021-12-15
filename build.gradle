@@ -1,35 +1,12 @@
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "edu.wpi.first:GradleRIO:2020.3.2"
-  }
-}
-
-
-
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2021.1.2"
-}
-
-
-apply from: "./gradle5k.gradle"
-
-dependencies {
-
-    // Lib5K
-    compile fileTree(dir: 'libs', include: '*.jar')
-
+    id "edu.wpi.first.GradleRIO" version "2021.3.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-def ROBOT_MAIN_CLASS = "frc.robot.io.github.frc5024.y2022.darthraider.Main"
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
@@ -61,11 +38,16 @@ deploy {
 }
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
+    implementation wpi.deps.wpilib()
+    nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
+
+
     implementation wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
@@ -80,6 +62,9 @@ dependencies {
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
     // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
+
+	// Lib5k
+	compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 // Simulation configuration (e.g. environment variables).
